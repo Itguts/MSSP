@@ -96,13 +96,13 @@ steps:
   inputs:
     SourceFolder: 'Notebooks'
     Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)\Deployable\Notebooks'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/Deployable/Notebooks'
 
 - task: CopyFiles@2
   displayName: 'Copy test report file to generate build artifacts'
   inputs:  
     Contents: 'TestReport.html'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)\Deployable\TestReport'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/Deployable/TestReport'
 
 - bash: ls $(Build.ArtifactStagingDirectory)/Deployable
 

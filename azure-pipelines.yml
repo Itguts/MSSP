@@ -1,0 +1,113 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+# https://pypi.org/project/pytest-azurepipelines/
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+  strategy:
+    matrix:
+      Python27:
+        python.version: '2.7'
+      Python35:
+        python.version: '3.5'
+      Python36:
+        python.version: '3.6'
+
+steps:
+- script: echo Databricks Notebook Pipeline!
+  displayName: 'Step1 - Start cluster, Run Test Notebook'
+
+- task: configuredatabricks@0
+  inputs:
+    url: 'https://dbc-6c3e356a-423e.cloud.databricks.com'
+    token: 'dapib786edf1271c960e9a28712fc9b036e3'
+
+- script: ls *
+- task: startcluster@0
+  inputs:
+    clusterid: '1228-064843-ggpdtncg'
+
+
+- task: executenotebook@0
+  inputs:
+    notebookPath: '/Shared/Test2'
+    existingClusterId: '1228-064843-ggpdtncg'
+    executionParams: '{"Name":"pakpak","Actual":321}'
+
+- task: waitexecution@0
+
+- script: echo Download actual test result!
+  displayName: 'Step2 - Download actual test result file from azure blob to working directory'
+
+- bash: mkdir $(Build.SourcesDirectory)/BlobFile
+
+- bash: ls $(Build.SourcesDirectory)
+
+- task: AzureCLI@1
+  inputs:
+    azureSubscription: 'Visual Studio Professional Subscription (df054c69-192a-4730-96be-b270a073dd2d)'
+    scriptLocation: 'inlineScript'
+    inlineScript: |      
+      az storage blob download --container-name $(containername) --file $(Build.SourcesDirectory)/BlobFile/TestResult_Actual.csv --name "TestResult_Actual.csv" --account-key $(accountkey) --account-name $(accountname)
+
+- bash: ls $(Build.SourcesDirectory)/BlobFile
+
+- task: CopyFiles@2
+  displayName: 'Copy test report file to generate build artifacts'
+  inputs:  
+    Contents: '**'
+    SourceFolder: $(Build.SourcesDirectory)/BlobFile
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/DeployableNotebooks'
+
+- script: echo Run python test cases!
+  displayName: 'Step3 - Run python test cases'
+
+- task: UsePythonVersion@0
+  displayName: 'Use Python 3.x'
+
+- script: |
+    python -m pip install --upgrade pip
+    pip install pytest pytest-azurepipelines pytest-html
+    pip install -e .
+    pip install pandas
+  displayName: 'Install dependencies'
+
+- script: |    
+    pytest tests/ --junitxml=junit/test-results.xml --test-run-title="Windows Test with junitxml" --html=TestReport.html --self-contained-html
+  displayName: 'pytest with junitxml flag'
+
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  displayName: 'Publishing test reports'
+  inputs:
+    testResultsFiles: '**/test-*.xml'
+    testRunTitle: 'Publish test results for Python $(python.version)'
+    failTaskOnFailedTests: true
+
+- script: echo Generate build artifatcs!
+  displayName: 'Step4 - Generate deployable artifacts'
+
+- task: CopyFiles@2
+  displayName: 'Copy notebooks to generate build artifacts'
+  inputs:
+    SourceFolder: 'Notebooks'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)\DeployableNotebooks'
+
+- task: CopyFiles@2
+  displayName: 'Copy test report file to generate build artifacts'
+  inputs:  
+    Contents: 'TestReport.html'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)\DeployableNotebooks'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: DeployableNotebooks'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\DeployableNotebooks'
+    ArtifactName: 'Deliverables'
+    publishLocation: 'Container'

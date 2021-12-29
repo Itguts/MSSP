@@ -35,9 +35,8 @@ steps:
 
 - task: executenotebook@0
   inputs:
-    notebookPath: '/Shared/Test2'
-    existingClusterId: '1228-064843-ggpdtncg'
-    executionParams: '{"Name":"pakpak","Actual":321}'
+    notebookPath: '/Repos/MSSP/MSSP/Notebooks/TestNotebook'
+    existingClusterId: '1228-064843-ggpdtncg'    
 
 - task: waitexecution@0
 

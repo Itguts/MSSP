@@ -61,7 +61,7 @@ steps:
   inputs:  
     Contents: '**'
     SourceFolder: $(Build.SourcesDirectory)/BlobFile
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/Deployable'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/Deployable/TestReport'
 
 - script: echo Run python test cases!
   displayName: 'Step3 - Run python test cases'

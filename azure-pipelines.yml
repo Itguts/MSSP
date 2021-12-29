@@ -96,17 +96,17 @@ steps:
   inputs:
     SourceFolder: 'Notebooks'
     Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)\DeployableNotebooks'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)\Deployable\Notebooks'
 
 - task: CopyFiles@2
   displayName: 'Copy test report file to generate build artifacts'
   inputs:  
     Contents: 'TestReport.html'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)\DeployableNotebooks\TestReport'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)\Deployable\TestReport'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: DeployableNotebooks'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)\DeployableNotebooks'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\Deployable'
     ArtifactName: 'Deliverables'
     publishLocation: 'Container'

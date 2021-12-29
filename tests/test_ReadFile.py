@@ -1,8 +1,8 @@
 import pandas as pd
 import pytest
 
-df_Actual = pd.read_csv('data/TestResult_Expected.csv')
-df_Expected = pd.read_csv('BlobFile/TestResult_Actual.csv')
+df_Expected = pd.read_csv('data/TestResult_Expected.csv')
+df_Actual = pd.read_csv('BlobFile/TestResult_Actual.csv')
 
 
 def test_TotalRowCount():

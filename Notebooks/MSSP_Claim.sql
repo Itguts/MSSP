@@ -1,2 +1,17 @@
 -- Databricks notebook source
-select 'Claims ETS'
+--Write cliams ETL
+
+-- COMMAND ----------
+
+--Deleteting testnames
+delete from default.testresult where TestName in ('TotalClaimlines','TotalPaidAmount')
+
+-- COMMAND ----------
+
+--Insert test result into default.testresult table
+Insert into default.testresult values('TotalClaimlines', 3456)
+
+-- COMMAND ----------
+
+--Insert test result into default.testresult table
+Insert into default.testresult values('TotalPaidAmount', 12345)

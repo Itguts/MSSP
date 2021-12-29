@@ -52,7 +52,7 @@ steps:
     azureSubscription: 'Visual Studio Professional Subscription (df054c69-192a-4730-96be-b270a073dd2d)'
     scriptLocation: 'inlineScript'
     inlineScript: |      
-      az storage blob download --container-name $(containername) --file $(Build.SourcesDirectory)/BlobFile/TestResult_Actual.csv --name "TestResult/TestResult_Actual.csv" --account-key $(accountkey) --account-name $(accountname)
+      az storage blob download --container-name $(containername) --file $(Build.SourcesDirectory)/BlobFile/TestResult_Actual.csv --name "TestResult_Actual.csv" --account-key $(accountkey) --account-name $(accountname)
 
 - bash: ls $(Build.SourcesDirectory)/BlobFile
 

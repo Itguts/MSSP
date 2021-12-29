@@ -102,7 +102,7 @@ steps:
   displayName: 'Copy test report file to generate build artifacts'
   inputs:  
     Contents: 'TestReport.html'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)\DeployableNotebooks'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)\DeployableNotebooks\TestReport'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: DeployableNotebooks'

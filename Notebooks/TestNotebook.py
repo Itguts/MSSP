@@ -36,4 +36,4 @@ spark.conf.set("fs.azure.account.key.{0}.blob.core.windows.net".format(storage_a
 # MAGIC spark.conf.set("fs.azure.account.key.azurestorage.blob.core.windows.net","onoPvW5rPcUoa2AoJnTzv4UXijmIC6KU8pXIbMYXq+vxkX2T7VOpb1nrstBz3Vw4FN/e8W5EoEaCqwqhsFoCxA==")
 # MAGIC 
 # MAGIC // Save to the source container
-# MAGIC df_spark.write.mode(SaveMode.Append).csv("wasbs://globalproducts@globalproducts.blob.core.windows.net/csvFolder/")
+# MAGIC df_spark.write.mode(SaveMode.Append).csv("wasbs://globalproducts@globalproducts.blob.core.windows.net/TestResult/")

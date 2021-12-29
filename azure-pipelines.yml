@@ -109,6 +109,6 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: DeployableNotebooks'
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)\Deployable'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)Deployable'
     ArtifactName: 'Deliverables'
     publishLocation: 'Container'

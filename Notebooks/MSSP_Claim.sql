@@ -1,5 +1,6 @@
 -- Databricks notebook source
 --Write cliams ETL
+--Select 1
 
 -- COMMAND ----------
 
